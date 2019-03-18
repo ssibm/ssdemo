@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.svc.name }}-stage
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  type: {{ .Values.svc.type }}
+  ports:
+  - port: {{ .Values.svc.port }}
+    targetPort: {{ .Values.svc.port }}
+    protocol: TCP
+    name: {{ .Values.svc.name }}
+  selector:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    {{- if eq .Values.productionSlot "blue" }}
+    slot: green
+    {{- else }}
+    slot: blue
+    {{- end }}

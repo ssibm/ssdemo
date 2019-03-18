@@ -1,0 +1,33 @@
+---
+{{ if .Values.green.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rabbitmq-green
+  labels:
+    name: rabbitmq
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: rabbitmq
+        slot: green
+    spec:
+      containers:
+      - name: rabbitmq-green
+        image: rabbitmq:3.6.8
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5672
+        securityContext:
+          capabilities:
+            drop:
+              - all
+            add:
+              - CHOWN
+              - SETGID
+              - SETUID
+              - DAC_OVERRIDE
+          readOnlyRootFilesystem: true
+{{ end }}

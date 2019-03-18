@@ -1,0 +1,13 @@
+{
+  "name": "simple-logging",
+  "version": "0.0.1",
+  "description": "node app to log simple events to file",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.16.1",
+    "winston": "^3.0.0-rc5"
+  }
+}

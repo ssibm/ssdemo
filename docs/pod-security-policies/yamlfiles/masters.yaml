@@ -1,0 +1,18 @@
+# This is the modified privileged-psp-user.yaml.
+# When adding this .yaml file to the enviroment be sure to name it privileged-psp-user.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  creationTimestamp: 2018-07-15T21:49:44Z
+  name: privileged-psp-user
+  resourceVersion: "244"
+  selfLink: /apis/rbac.authorization.k8s.io/v1/clusterrolebindings/privileged-psp-user
+  uid: fc634387-8878-11e8-a3ba-2e17b16384ed
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ibm-privileged-psp-user
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+name: system:masters

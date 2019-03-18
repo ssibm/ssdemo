@@ -1,0 +1,395 @@
+version: '2'
+messages:
+  $i18n: locales.yml
+template:
+  name:
+    $ref: "#/messages/template.name"
+  description:
+    $ref: "#/messages/template.description"
+  header: "This is for SOCKstore App" #'![](toolchain.svg?localize)'
+  icon: secure-lock-helm.svg
+  required:
+    - swarm-sockstore-repo
+    - sockstore-cart-db-repo
+    - sockstore-catalogue-db-repo
+    - sockstore-front-end-repo
+    - sockstore-order-db-repo
+    - sockstore-payment-repo
+    - sockstore-queue-master-repo
+    - sockstore-shipping-repo
+    - sockstore-user-repo
+    - build-cart-db-pipeline
+    - build-catalogue-db-pipeline
+    - build-front-end-pipeline
+    - build-order-db-pipeline
+    - build-payment-pipeline
+    - build-queue-master-pipeline
+    - build-shipping-pipeline
+    - build-user-pipeline
+    - build-custom-docker-pipeline
+    - deploy-pipeline
+  info:
+    git url: >-
+      [https://github.ibm.com/customer-success/swarm](https://github.ibm.com/customer-success/swarm)
+    git branch: >-
+      [ci-cd](https://github.ibm.com/customer-success/swarm/tree/ci-cd)
+toolchain:
+  name: 'sockstore-toolchain'
+  template:
+    getting_started:
+      $ref: "#/messages/template.gettingStarted"
+services:
+  swarm-sockstore-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'swarm-sockstore-repo'
+      repo_url: 'https://github.ibm.com/customer-success/swarm'
+      type: link
+      has_issues: true
+      enable_traceability: true
+  sockstore-cart-db-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'sockstore-cart-db'
+      repo_url: 'https://github.ibm.com/customer-success/sockstore-cart-db'
+      type: link
+      has_issues: true
+      enable_traceability: true
+  sockstore-catalogue-db-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'sockstore-catalogue-db'
+      repo_url: 'https://github.ibm.com/customer-success/sockstore-catalogue-db'
+      type: link
+      has_issues: true
+      enable_traceability: true
+  sockstore-front-end-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'sockstore-front-end'
+      repo_url: 'https://github.ibm.com/customer-success/sockstore-front-end'
+      type: link
+      has_issues: true
+      enable_traceability: true
+  sockstore-order-db-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'sockstore-order-db'
+      repo_url: 'https://github.ibm.com/customer-success/sockstore-order-db'
+      type: link
+      has_issues: true
+      enable_traceability: true
+  sockstore-payment-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'sockstore-payment'
+      repo_url: 'https://github.ibm.com/customer-success/sockstore-payment'
+      type: link
+      has_issues: true
+      enable_traceability: true
+  sockstore-queue-master-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'sockstore-queue-master'
+      repo_url: 'https://github.ibm.com/customer-success/sockstore-queue-master'
+      type: link
+      has_issues: true
+      enable_traceability: true
+  sockstore-shipping-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'sockstore-shipping'
+      repo_url: 'https://github.ibm.com/customer-success/sockstore-shipping'
+      type: link
+      has_issues: true
+      enable_traceability: true
+  sockstore-user-repo:
+    service_id: github_integrated
+    parameters:
+      repo_name: 'sockstore-user'
+      repo_url: 'https://github.ibm.com/customer-success/sockstore-user'
+      type: link
+      has_issues: true
+      enable_traceability: true
+
+  build-cart-db-pipeline:
+    service_id: pipeline
+    parameters:
+      services:
+        - sockstore-cart-db-repo
+        - swarm-sockstore-repo
+      name: 'cart-db'
+      ui-pipeline: false
+      configuration:
+        content:
+          $text: build-cart-db-pipeline.yml
+        env:
+          GIT_REPO: sockstore-cart-db-repo
+          DEPLOY_GIT_REPO: swarm-sockstore-repo
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          IMAGE_NAME: '{{form.pipeline.parameters.cart-image-name}}'
+          CLUSTER_NAME: '{{form.pipeline.parameters.dev-cluster-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+  build-catalogue-db-pipeline:
+    service_id: pipeline
+    parameters:
+      services:
+        - sockstore-catalogue-db-repo
+        - swarm-sockstore-repo
+      name: 'catalogue-db'
+      ui-pipeline: false
+      configuration:
+        content:
+          $text: build-catalogue-db-pipeline.yml
+        env:
+          GIT_REPO: sockstore-catalogue-db-repo
+          DEPLOY_GIT_REPO: swarm-sockstore-repo
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          IMAGE_NAME: '{{form.pipeline.parameters.catalogue-image-name}}'
+          CLUSTER_NAME: '{{form.pipeline.parameters.dev-cluster-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+  build-front-end-pipeline:
+    service_id: pipeline
+    parameters:
+      services:
+        - sockstore-front-end-repo
+        - swarm-sockstore-repo
+      name: 'front-end'
+      ui-pipeline: false
+      configuration:
+        content:
+          $text: build-front-end-pipeline.yml
+        env:
+          GIT_REPO: sockstore-front-end-repo
+          DEPLOY_GIT_REPO: swarm-sockstore-repo
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          IMAGE_NAME: '{{form.pipeline.parameters.front-end-image-name}}'
+          CLUSTER_NAME: '{{form.pipeline.parameters.dev-cluster-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+  build-order-db-pipeline:
+    service_id: pipeline
+    parameters:
+      services:
+        - sockstore-order-db-repo
+        - swarm-sockstore-repo
+      name: 'order-db'
+      ui-pipeline: false
+      configuration:
+        content:
+          $text: build-order-db-pipeline.yml
+        env:
+          GIT_REPO: sockstore-order-db-repo
+          DEPLOY_GIT_REPO: swarm-sockstore-repo
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          IMAGE_NAME: '{{form.pipeline.parameters.order-image-name}}'
+          CLUSTER_NAME: '{{form.pipeline.parameters.dev-cluster-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+  build-payment-pipeline:
+    service_id: pipeline
+    parameters:
+      services:
+        - sockstore-payment-repo
+        - swarm-sockstore-repo
+      name: 'payment'
+      ui-pipeline: false
+      configuration:
+        content:
+          $text: build-payment-pipeline.yml
+        env:
+          GIT_REPO: sockstore-payment-repo
+          DEPLOY_GIT_REPO: swarm-sockstore-repo
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          IMAGE_NAME: '{{form.pipeline.parameters.payment-image-name}}'
+          CLUSTER_NAME: '{{form.pipeline.parameters.dev-cluster-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+  build-queue-master-pipeline:
+    service_id: pipeline
+    parameters:
+      services:
+        - sockstore-queue-master-repo
+        - swarm-sockstore-repo
+      name: 'queue-master'
+      ui-pipeline: false
+      configuration:
+        content:
+          $text: build-queue-master-pipeline.yml
+        env:
+          GIT_REPO: sockstore-queue-master-repo
+          DEPLOY_GIT_REPO: swarm-sockstore-repo
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          IMAGE_NAME: '{{form.pipeline.parameters.queue-master-image-name}}'
+          CLUSTER_NAME: '{{form.pipeline.parameters.dev-cluster-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+  build-shipping-pipeline:
+    service_id: pipeline
+    parameters:
+      services:
+        - sockstore-shipping-repo
+        - swarm-sockstore-repo
+      name: 'shipping'
+      ui-pipeline: false
+      configuration:
+        content:
+          $text: build-shipping-pipeline.yml
+        env:
+          GIT_REPO: sockstore-shipping-repo
+          DEPLOY_GIT_REPO: swarm-sockstore-repo
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          IMAGE_NAME: '{{form.pipeline.parameters.shipping-image-name}}'
+          CLUSTER_NAME: '{{form.pipeline.parameters.dev-cluster-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+  build-user-pipeline:
+    service_id: pipeline
+    parameters:
+      services:
+        - sockstore-user-repo
+        - swarm-sockstore-repo
+      name: 'user'
+      ui-pipeline: false
+      configuration:
+        content:
+          $text: build-user-pipeline.yml
+        env:
+          GIT_REPO: sockstore-user-repo
+          DEPLOY_GIT_REPO: swarm-sockstore-repo
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          IMAGE_NAME: '{{form.pipeline.parameters.user-image-name}}'
+          CLUSTER_NAME: '{{form.pipeline.parameters.dev-cluster-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+  build-customer-docker-pipeline:
+    service_id: pipeline
+    parameters:
+      services:
+        - swarm-sockstore-repo
+      name: 'custom docker'
+      ui-pipeline: false
+      configuration:
+        content:
+          $text: build-custom-docker-pipeline.yml
+        env:
+          GIT_REPO: swarm-sockstore-repo
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          IMAGE_NAME: '{{form.pipeline.parameters.docker-image-name}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+        execute: true
+
+  deploy-pipeline:
+    service_id: pipeline
+    parameters:
+      services:
+        - swarm-sockstore-repo
+      name: 'deploy'
+      ui-pipeline: false
+      configuration:
+        content:
+          $text: deploy-pipeline.yml
+        env:
+          GIT_REPO: swarm-sockstore-repo
+          REGISTRY_REGION_ID: '{{form.pipeline.parameters.registry-region}}'
+          REGISTRY_NAMESPACE: '{{form.pipeline.parameters.registry-namespace}}'
+          API_KEY: '{{form.pipeline.parameters.api-key}}'
+
+          DEV_INGRESS_HOST: '{{form.pipeline.parameters.dev-ingress-host}}'
+          DEV_INGRESS_SUBDOMAIN: '{{form.pipeline.parameters.dev-ingress-subdomain}}'
+          DEV_APPID_ALIAS: '{{form.pipeline.parameters.dev-appid-alias}}'
+          DEV_CLUSTER_NAME: '{{form.pipeline.parameters.dev-cluster-name}}'
+          DEV_CLUSTER_NAMESPACE: '{{form.pipeline.parameters.dev-cluster-namespace}}'
+          DEV_REGION: '{{form.pipeline.parameters.dev-region}}'
+
+          TEST_INGRESS_HOST: '{{form.pipeline.parameters.test-ingress-host}}'
+          TEST_INGRESS_SUBDOMAIN: '{{form.pipeline.parameters.test-ingress-subdomain}}'
+          TEST_APPID_ALIAS: '{{form.pipeline.parameters.test-appid-alias}}'
+          TEST_CLUSTER_NAME: '{{form.pipeline.parameters.test-cluster-name}}'
+          TEST_CLUSTER_NAMESPACE: '{{form.pipeline.parameters.test-cluster-namespace}}'
+          TEST_REGION: '{{form.pipeline.parameters.test-region}}'
+
+          STAGING_INGRESS_HOST: '{{form.pipeline.parameters.staging-ingress-host}}'
+          STAGING_INGRESS_SUBDOMAIN: '{{form.pipeline.parameters.staging-ingress-subdomain}}'
+          STAGING_APPID_ALIAS: '{{form.pipeline.parameters.staging-appid-alias}}'
+          STAGING_CLUSTER_NAME: '{{form.pipeline.parameters.staging-cluster-name}}'
+          STAGING_CLUSTER_NAMESPACE: '{{form.pipeline.parameters.staging-cluster-namespace}}'
+          STAGING_REGION: '{{form.pipeline.parameters.staging-region}}'
+        execute: true
+
+form:
+  pipeline:
+    parameters:
+      # Shared
+      api-key: ""
+
+      # Image registry info
+      registry-region: "ibm:yp:us-south"
+      registry-namespace: 'swarm'
+
+      # Custom Docker Image
+      docker-image-name: "ubuntu-xenial"
+
+      # Micro-Services
+      # Cart
+      cart-image-name: "sockstore-cart"
+
+      # Catalogue
+      catalogue-image-name: "sockstore-catalogue"
+
+      # Front End
+      front-end-image-name: "sockstore-front-end"
+
+      # Order
+      order-image-name: "sockstore-order"
+
+      # Payment
+      payment-image-name: "sockstore-payment"
+
+      # Queue Master
+      queue-master-image-name: "sockstore-queue-master"
+
+      # Shipping
+      shipping-image-name: "sockstore-shipping"
+
+      # User
+      user-image-name: "sockstore-user"
+
+      # Environments
+      # Dev
+      dev-ingress-host: "dev-ci-cd"
+      dev-ingress-subdomain: "swarm-mzr-ussouth.us-south.containers.appdomain.cloud"
+      dev-appid-alias: "ci-cd"
+      dev-cluster-name: "swarm-mzr-ussouth"
+      dev-cluster-namespace: "dev-ci-cd"
+      dev-region: ""
+
+      # Test
+      test-ingress-host: "test-ci-cd"
+      test-ingress-subdomain: "swarm-mzr-ussouth.us-south.containers.appdomain.cloud"
+      test-appid-alias: "ci-cd"
+      test-cluster-name: "swarm-mzr-ussouth"
+      test-cluster-namespace: "test-ci-cd"
+      test-region: ""
+
+      # Staging
+      staging-ingress-host: "staging-ci-cd"
+      staging-ingress-subdomain: "swarm-mzr-ussouth.us-south.containers.appdomain.cloud"
+      staging-appid-alias: "ci-cd"
+      staging-cluster-name: "swarm-mzr-ussouth"
+      staging-cluster-namespace: "staging-ci-cd"
+      staging-region: ""
+
+    schema:
+      $ref: deploy.json

@@ -1,0 +1,59 @@
+env: devtest
+
+green:
+  enabled: false
+blue:
+  enabled: false
+productionSlot: blue
+
+replicaCount: 1
+restartPolicy: Never
+
+image:
+  repo: registry.eu-gb.bluemix.net/swarm/proton-broker-log-analysis
+  user:
+  pass:
+  tag: latest
+  pullPolicy: Always
+
+broker:
+  api:
+    headerName: X-Broker-API-Version
+    version: 2.13
+
+svc:
+  id: 70c2a948-3632-4300-b74c-3168a7891ac5
+  name: proton-la
+  user: d8k3018ywp
+  pass: xZ3nFmk^BMkFWA8s
+  port: 3080
+  type: ClusterIP
+
+plan:
+  id: dummyplanidvaluegoeshere
+
+provider:
+  secret: provider-la
+  apikey: Token e1aad2b111d85d92e0ef791bf663d1a1ea11ace1
+  endpoint: https://platform-jpdev.rescale.com/api/v3/register/company/
+
+ingress:
+  subdomain: log-analysis.swarm-eu-gb.eu-gb.containers.appdomain.cloud
+  secret: swarm-eu-gb
+  path: /
+
+resources:
+  limits:
+    cpu:
+    memory:
+  requests:
+    cpu:
+    memory:
+
+global:
+  bx:
+    apikey:
+    target:
+      endpoint:
+      org:
+    cluster:

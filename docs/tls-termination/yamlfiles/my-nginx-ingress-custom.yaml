@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: my-nginx-ingress
+spec:
+  tls:
+  - hosts:
+    - <Ingress Subdomain>
+    secretName: <Ingress Secret name>
+  rules:
+  - host: <Ingress Subdomain>
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: my-nginx-service
+          servicePort: 8000

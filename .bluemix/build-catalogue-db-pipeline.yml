@@ -1,0 +1,121 @@
+---
+stages:
+- name: GET EXISTING
+  inputs:
+  - type: git
+    branch: ci-cd
+    service: ${GIT_REPO}
+  triggers:
+  - type: commit
+  jobs:
+  - name: Get Existing and Push
+    type: builder
+    build_type: cr
+    artifact_dir: ''
+    target:
+      region_id: ${REGISTRY_REGION_ID}
+      api_key: ${API_KEY}
+    namespace: ${REGISTRY_NAMESPACE}
+    image_name: ${IMAGE_NAME}
+    script: |
+      #!/bin/bash
+      source "./scripts/otc-use-existing-build.sh"
+- name: VALIDATE
+  inputs:
+  - type: job
+    stage: GET EXISTING
+    job: Get Existing and Push
+  triggers:
+  - type: stage
+  properties:
+  - name: buildprops
+    value: build.properties
+    type: file
+  jobs:
+  - name: Vulnerability Advisor
+    type: tester
+    test_type: vulnerabilityadvisor
+    use_image_from_build_input: true
+    fail_stage: true
+    target:
+      region_id: ${REGISTRY_REGION_ID}
+      api_key: ${API_KEY}
+    script: |
+      #!/bin/bash
+      source "./scripts/otc-vulnerability-scan.sh"
+# - name: BUILD
+#   inputs:
+#   - type: git
+#     branch: ci-cd
+#     service: ${GIT_REPO}
+#   triggers:
+#   - type: commit
+#   jobs:
+#   - name: Pre-build check
+#     type: builder
+#     build_type: cr
+#     artifact_dir: ''
+#     target:
+#       region_id: ${REGISTRY_REGION_ID}
+#       api_key: ${API_KEY}
+#     namespace: ${REGISTRY_NAMESPACE}
+#     image_name: ${IMAGE_NAME}
+#     script: |
+#       #!/bin/bash
+#       source "./scripts/otc-prebuild.sh"
+#   - name: Build Docker image
+#     type: builder
+#     build_type: cr
+#     artifact_dir: output
+#     target:
+#       region_id: ${REGISTRY_REGION_ID}
+#       api_key: ${API_KEY}
+#     namespace: ${REGISTRY_NAMESPACE}
+#     image_name: ${IMAGE_NAME}
+#     script: |
+#       #!/bin/bash
+#       source "./scripts/otc-build.sh"
+# - name: VALIDATE
+#   inputs:
+#   - type: job
+#     stage: BUILD
+#     job: Build Docker image
+#   triggers:
+#   - type: stage
+#   properties:
+#   - name: buildprops
+#     value: build.properties
+#     type: file
+#   jobs:
+#   - name: Vulnerability Advisor
+#     type: tester
+#     test_type: vulnerabilityadvisor
+#     use_image_from_build_input: true
+#     fail_stage: true
+#     target:
+#       region_id: ${REGISTRY_REGION_ID}
+#       api_key: ${API_KEY}
+#     script: |
+#       #!/bin/bash
+#       source "./scripts/otc-vulnerability-scan.sh"
+# - name: TRIGGER DEPLOY
+#   inputs:
+#   - type: git
+#     branch: ci-cd
+#     service: ${GIT_REPO}
+#   triggers:
+#   - type: stage
+#   properties:
+#   - name: DEPLOY_GIT_REPO
+#     value: ${DEPLOY_GIT_REPO}
+#     type: text
+#   jobs:
+#   - name: Trigger Deploy Pipeline
+#     type: deployer
+#     target:
+#       region_id: ${REGISTRY_REGION_ID}
+#       api_key: ${API_KEY}
+#       kubernetes_cluster: ${CLUSTER_NAME}
+#     script: |
+#       #!/bin/bash
+#       source "./scripts/otc-trigger-deploy.sh"

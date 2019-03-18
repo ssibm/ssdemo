@@ -1,0 +1,40 @@
+---
+{{ if .Values.green.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: carts-db-green
+  labels:
+    name: carts-db
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: carts-db
+        slot: green
+    spec:
+      containers:
+      - name: carts-db-green
+        image: mongo
+        imagePullPolicy: Always
+        ports:
+        - name: mongo
+          containerPort: 27017
+        securityContext:
+          capabilities:
+            drop:
+              - all
+            add:
+              - CHOWN
+              - SETGID
+              - SETUID
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp-volume
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+{{ end }}

@@ -1,0 +1,28 @@
+{{ if .Values.blue.enabled }}
+{{- if .Values.zipkin.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zipkin-blue
+  labels:
+    name: zipkin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: zipkin
+        slot: blue
+    spec:
+      containers:
+      - name: zipkin-blue
+        image: openzipkin/zipkin
+        ports:
+        - containerPort: 9411
+        env:
+        - name: STORAGE_TYPE
+          value: mysql
+        - name: MYSQL_HOST
+          value: zipkin-mysql
+{{- end -}}
+{{ end }}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.svc.name }}
+data:
+  node_env: {{ .Values.env }}
+  node_port : "{{ .Values.svc.port }}"
+  svc_id: {{ .Values.svc.id }}
+  plan_id: {{ .Values.plan.id }}
+  br_api_ver_header: {{ .Values.broker.api.headerName }}
+  br_api_ver: "{{ .Values.broker.api.version }}"

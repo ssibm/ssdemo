@@ -1,0 +1,93 @@
+---
+stages:
+- name: BUILD AND PUSH DOCKER IMAGE
+  inputs:
+  - type: git
+    branch: ci-cd
+    service: ${GIT_REPO}
+  triggers:
+  - type: commit
+  - enabled: false
+  jobs:
+  - name: Build and Push
+    type: builder
+    build_type: cr
+    working_dir: sockstore/docker/ubuntu
+    artifact_dir: ''
+    target:
+      region_id: ${REGISTRY_REGION_ID}
+      api_key: ${API_KEY}
+    namespace: ${REGISTRY_NAMESPACE}
+    image_name: ${IMAGE_NAME}
+    script: |
+      #!/bin/bash
+      echo -e "Build environment variables:"
+      echo "REGISTRY_URL=${REGISTRY_URL}"
+      echo "REGISTRY_NAMESPACE=${REGISTRY_NAMESPACE}"
+      echo "IMAGE_NAME=${IMAGE_NAME}"
+
+      # Learn more about the available environment variables at:
+      # https://console.bluemix.net/docs/services/ContinuousDelivery/pipeline_deploy_var.html#deliverypipeline_environment
+
+      # To review or change build options use:
+      # bx cr build --help
+
+      echo -e "Checking for Dockerfile at the repository root"
+      if [ -f Dockerfile ]; then
+         echo "Dockerfile found"
+      else
+          echo "Dockerfile not found"
+          exit 1
+      fi
+
+      echo -e "Building container image"
+      set -x
+      bx cr build -t $REGISTRY_URL/$REGISTRY_NAMESPACE/$IMAGE_NAME:$BUILD_NUMBER .
+      set +x
+- name: VALIDATE
+  inputs:
+  - type: job
+    stage: BUILD AND PUSH DOCKER IMAGE
+    job: Build and Push
+  triggers:
+  - type: stage
+  properties:
+  - name: buildprops
+    value: build.properties
+    type: file
+  jobs:
+  - name: Vulnerability Advisor
+    type: tester
+    test_type: vulnerabilityadvisor
+    use_image_from_build_input: true
+    fail_stage: true
+    target:
+      region_id: ${REGISTRY_REGION_ID}
+      api_key: ${API_KEY}
+    script: |
+      #!/bin/bash
+      echo -e "Test environment variables:"
+      echo "REGISTRY_URL=${REGISTRY_URL}"
+      echo "REGISTRY_NAMESPACE=${REGISTRY_NAMESPACE}"
+      echo "IMAGE_NAME=${IMAGE_NAME}"
+      echo "IMAGE_TAG=${IMAGE_TAG}"
+
+      # default value for PIPELINE_IMAGE_URL -- uncomment and customize as needed
+      # export PIPELINE_IMAGE_URL="$REGISTRY_URL/$REGISTRY_NAMESPACE/$IMAGE_NAME:$IMAGE_TAG"
+      echo "PIPELINE_IMAGE_URL=${PIPELINE_IMAGE_URL}"
+
+      # Learn more about the available environment variables at:
+      # https://console.bluemix.net/docs/services/ContinuousDelivery/pipeline_deploy_var.html#deliverypipeline_environment
+
+      for iteration in {1..6}
+      do
+        [[ $(bx cr va $PIPELINE_IMAGE_URL) == *not\ been\ scanned* ]] || break
+        echo -e "A vulnerability report was not found for the specified image, either the image doesn't exist or the scan hasn't completed yet. Waiting for scan to complete.."
+        sleep 30
+      done
+
+      # set +e
+      # bx cr va $PIPELINE_IMAGE_URL
+      # set -e
+
+      [[ $(bx cr va $PIPELINE_IMAGE_URL) == *SAFE\ to\ deploy* ]] || { echo "ERROR: The vulnerability scan was not successful, check the output of the command and try again."; exit 1; }

@@ -1,0 +1,29 @@
+---
+{{ if .Values.green.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: catalogue-db-green
+  labels:
+    name: catalogue-db
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: catalogue-db
+        slot: green
+    spec:
+      containers:
+      - name: catalogue-db-green
+        image: {{ .Values.registry }}/{{ .Values.cataloguedb.image }}:{{ .Values.cataloguedb.tag }}
+        imagePullPolicy: Always
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: fake_password
+          - name: MYSQL_DATABASE
+            value: socksdb
+        ports:
+        - name: mysql
+          containerPort: 3306
+{{ end }}

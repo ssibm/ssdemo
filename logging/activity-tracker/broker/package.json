@@ -1,0 +1,14 @@
+{
+  "name": "hpcaas-broker",
+  "version": "0.0.1",
+  "description": "rc-enabled service broker for rescale on ibm cloud",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "basic-auth": "^2.0.0",
+    "body-parser": "^1.16.1",
+    "express": "^4.16.1",
+    "winston": "^3.0.0-rc5"
+  }
+}

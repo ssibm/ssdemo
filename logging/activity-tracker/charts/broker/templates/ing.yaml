@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.svc.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  tls:
+  - hosts:
+    - {{ .Values.ingress.subdomain }}
+    secretName: {{ .Values.ingress.secret }}
+  rules:
+  - host: {{ .Values.ingress.subdomain }}
+    http:
+      paths:
+      - path: {{ .Values.ingress.path }}
+        backend:
+          serviceName: {{ .Values.svc.name }}
+          servicePort: {{ .Values.svc.port }}

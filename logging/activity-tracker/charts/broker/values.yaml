@@ -1,0 +1,53 @@
+env: devtest
+
+replicaCount: 1
+restartPolicy: Never
+
+image:
+  repo: registry.ng.bluemix.net/customer_success/proton-broker
+  user:
+  pass:
+  tag: latest
+  pullPolicy: Always
+
+broker:
+  api:
+    headerName: X-Broker-API-Version
+    version: 2.13
+
+svc:
+  id: 70c2a948-3632-4300-b74c-3168a7891ac5
+  name: proton-at
+  user: d8k3018ywp
+  pass: xZ3nFmk^BMkFWA8s
+  port: 3080
+  type: ClusterIP
+
+plan:
+  id: dummyplanidvaluegoeshere
+
+provider:
+  secret: provider-at
+  apikey: Token e1aad2b111d85d92e0ef791bf663d1a1ea11ace1
+  endpoint: https://platform-jpdev.rescale.com/api/v3/register/company/
+
+ingress:
+  subdomain: activity-tracker.cloud-native-v2.us-south.containers.mybluemix.net
+  secret: cloud-native-v2
+  path: /
+
+resources:
+  limits:
+    cpu:
+    memory:
+  requests:
+    cpu:
+    memory:
+
+global:
+  bx:
+    apikey:
+    target:
+      endpoint:
+      org:
+    cluster:

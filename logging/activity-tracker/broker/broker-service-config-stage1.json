@@ -1,0 +1,23 @@
+{
+  "name": "hpcaas-broker",
+  "broker_url": "https://cloud-native-v2.us-south.containers.mybluemix.net",
+  "auth_username": "d8k3018ywp",
+  "auth_password": "xZ3nFmk^BMkFWA8s",
+  "owningOrganization": "WDP Customer Success Stage",
+  "visibilities": [
+    {
+      "organization_name": "IBMBSS"
+    }
+  ],
+  "ignoreVisibilities": false,
+  "rc_compatible": true,
+  "rc_broker_url": "https://cloud-native-v2.us-south.containers.mybluemix.net/",
+  "iam_compatible": false,
+  "catalog_type": "service",
+  "type": "provision-through",
+  "dashboard_client": {
+    "id": "rescaleClientId",
+    "secret": "rescaleClientPass",
+    "redirect_uri": "rescaleRedirectURI"
+  }
+}

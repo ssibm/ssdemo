@@ -1,0 +1,464 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "messages": {
+     "$i18n": "locales.yml"
+  },
+  "title": {
+    "$ref": "#/messages/deploy.title"
+  },
+  "description": {
+    "$ref": "#/messages/deploy.description"
+  },
+  "longDescription": {
+    "$ref": "#/messages/deploy.longDescription"
+  },
+  "type": "object",
+  "properties": {
+    "api-key": {
+      "description": "The Bluemix API key is used to access the IBM Container Service API and interact with the cluster. You can obtain your API key with 'bx iam api-key-create' or via the console at https://console.ng.bluemix.net/iam/#/apikeys by clicking **Create API key** (Each API key only can be viewed once).",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "registry-region": {
+      "description": "The bluemix region for image registry",
+      "type": "string"
+    },
+    "registry-namespace": {
+      "description": "The namespace in the container image registry. You can set it up with {bx cr namespace-add]. Learn more at https://console.bluemix.net/docs/services/Registry/index.html .",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_]{3,29}$"
+    },
+    "cart-image-name": {
+      "description": "The name for the cart microservice image",
+      "type": "string"
+    },
+    "catalogue-image-name": {
+      "description": "The name for the catalogue microservice image",
+      "type": "string"
+    },
+    "front-end-image-name": {
+      "description": "The name for the front-end microservice image",
+      "type": "string"
+    },
+    "order-image-name": {
+      "description": "The name for the order microservice image",
+      "type": "string"
+    },
+    "payment-image-name": {
+      "description": "The name for the payment microservice image",
+      "type": "string"
+    },
+    "queue-master-image-name": {
+      "description": "The name for the queue master microservice image",
+      "type": "string"
+    },
+    "shipping-image-name": {
+      "description": "The name for the shipping microservice image",
+      "type": "string"
+    },
+    "user-image-name": {
+      "description": "The name for the user microservice image",
+      "type": "string"
+    },
+    "dev-ingress-host": {
+      "description": "The ingress host for the dev environment",
+      "type": "string"
+    },
+    "dev-ingress-subdomain": {
+      "description": "The ingress subdomain for the dev environment",
+      "type": "string"
+    },
+    "dev-appid-alias": {
+      "description": "The AppID Alias for the dev environment",
+      "type": "string"
+    },
+    "dev-cluster-name": {
+      "description": "The name of development cluster. Retrieve it with [bx cs clusters] or via the console at https://console.ng.bluemix.net/containers-kubernetes/home/clusters .",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "dev-cluster-namespace": {
+      "description": "Development namespace",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "dev-region": {
+      "description": "Development Region for deployment",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "test-ingress-host": {
+      "description": "The ingress host for the test environment",
+      "type": "string"
+    },
+    "test-ingress-subdomain": {
+      "description": "The ingress subdomain for the test environment",
+      "type": "string"
+    },
+    "test-appid-alias": {
+      "description": "The AppID Alias for the test environment",
+      "type": "string"
+    },
+    "test-cluster-name": {
+      "description": "The name of testing cluster. Retrieve it with [bx cs clusters] or via the console at https://console.ng.bluemix.net/containers-kubernetes/home/clusters .",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "test-cluster-namespace": {
+      "description": "Testing namespace",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "test-region": {
+      "description": "Development Region for test",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "staging-ingress-host": {
+      "description": "The ingress host for the staging environment",
+      "type": "string"
+    },
+    "staging-ingress-subdomain": {
+      "description": "The ingress subdomain for the staging environment",
+      "type": "string"
+    },
+    "staging-appid-alias": {
+      "description": "The AppID Alias for the staging environment",
+      "type": "string"
+    },
+    "staging-cluster-name": {
+      "description": "The name of staging cluster. Retrieve it with [bx cs clusters] or via the console at https://console.ng.bluemix.net/containers-kubernetes/home/clusters .",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "staging-cluster-namespace": {
+      "description": "Staging namespace",
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "staging-region": {
+      "description": "Staging Region for deployment",
+      "type": "string",
+      "pattern": "\\S"
+    }
+  },
+  "required": ["api-key", "registry-region", "registry-namespace", "cart-image-name", "catalogue-image-name", "front-end-image-name", "order-image-name", "payment-image-name", "queue-master-image-name", "shipping-image-name", "user-image-name", "dev-ingress-host", "dev-ingress-subdomain", "dev-appid-alias", "dev-cluster-name", "dev-cluster-namespace", "dev-region", "test-ingress-host", "test-ingress-subdomain", "test-appid-alias", "test-cluster-name", "test-cluster-namespace", "test-region", "staging-ingress-host", "staging-ingress-subdomain", "staging-appid-alias", "staging-cluster-name", "staging-cluster-namespace", "staging-region"],
+  "form": [
+    {
+      "type": "validator",
+      "url": "/devops/setup/bm-helper/helper.html"
+    },
+    {
+      "type": "password",
+      "readonly": false,
+      "title": "Bluemix API key",
+      "key": "api-key"
+    },
+    {
+      "type": "table",
+      "columnCount": 2,
+      "widths": ["50%", "50%"],
+      "items": [
+        {
+          "type": "label",
+          "title": "Container registry region"
+        },{
+          "type": "label",
+          "title": "Container registry namespace"
+        },{
+          "type": "select",
+          "title": "Container image registry region",
+          "key": "registry-region"
+        },{
+          "type": "text",
+          "readonly": false,
+          "title": "Container image registry namespace",
+          "key": "registry-namespace"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "columnCount": 2,
+      "widths": ["50%", "50%"],
+      "items": [
+        {
+          "type": "label",
+          "title": "Cart Microservice Image Name"
+        },{
+          "type": "label",
+          "title": "Catalogue Microservice Image Name"
+        },{
+          "type": "text",
+          "readonly": false,
+          "title": "Cart Image Name",
+          "key": "cart-image-name"
+        },{
+          "type": "text",
+          "readonly": false,
+          "title": "Catalogue Image Name",
+          "key": "catalogue-image-name"
+        },{
+          "type": "label",
+          "title": "Front-End Microservice Image Name"
+        },{
+          "type": "label",
+          "title": "Order Microservice Image Name"
+        },{
+          "type": "text",
+          "readonly": false,
+          "title": "Front-End Image Name",
+          "key": "front-end-image-name"
+        },{
+          "type": "text",
+          "readonly": false,
+          "title": "Order Image Name",
+          "key": "order-image-name"
+        },{
+          "type": "label",
+          "title": "Payment Microservice Image Name"
+        },{
+          "type": "label",
+          "title": "Queue Master Microservice Image Name"
+        },{
+          "type": "text",
+          "readonly": false,
+          "title": "Payment Image Name",
+          "key": "payment-image-name"
+        },{
+          "type": "text",
+          "readonly": false,
+          "title": "Queue Master Image Name",
+          "key": "queue-master-image-name"
+        },{
+          "type": "label",
+          "title": "Shipping Microservice Image Name"
+        },{
+          "type": "label",
+          "title": "User Microservice Image Name"
+        },{
+          "type": "text",
+          "readonly": false,
+          "title": "Shipping Image Name",
+          "key": "shipping-image-name"
+        },{
+          "type": "text",
+          "readonly": false,
+          "title": "User Image Name",
+          "key": "user-image-name"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "columnCount": 4,
+      "widths": ["19%", "27%", "27%", "27%"],
+      "items": [
+        {
+          "type": "label",
+          "title": ""
+        },{
+          "type": "label",
+          "title": "Region"
+        },{
+          "type": "label",
+          "title": "Ingress Host"
+        },{
+          "type": "label",
+          "title": "Ingress Sub-Domain"
+        },{
+          "type": "label",
+          "title": "Dev Environment"
+        },{
+          "type": "select",
+          "key": "dev-region"
+        },{
+          "type": "text",
+          "key": "dev-ingress-host",
+          "readonly": false
+        },{
+          "type": "text",
+          "key": "dev-ingress-subdomain",
+          "readonly": false
+        },{
+          "type": "label",
+          "title": ""
+        },{
+          "type": "label",
+          "title": "Cluster Name"
+        },{
+          "type": "label",
+          "title": "Cluster Namespace"
+        },{
+          "type": "label",
+          "title": "AppID Alias"
+        },{
+          "type": "label",
+          "title": ""
+        },{
+          "type": "text",
+          "key": "dev-cluster-name",
+          "readonly": false
+        },{
+          "type": "text",
+          "key": "dev-cluster-namespace",
+          "readonly": false
+        },{
+          "type": "text",
+          "key": "dev-appid-alias",
+          "readonly": false
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "columnCount": 4,
+      "widths": ["19%", "27%", "27%", "27%"],
+      "items": [
+        {
+          "type": "label",
+          "title": ""
+        },{
+          "type": "label",
+          "title": "Region"
+        },{
+          "type": "label",
+          "title": "Ingress Host"
+        },{
+          "type": "label",
+          "title": "Ingress Sub-Domain"
+        },{
+          "type": "label",
+          "title": "Test Environment"
+        },{
+          "type": "select",
+          "key": "test-region"
+        },{
+          "type": "text",
+          "key": "test-ingress-host",
+          "readonly": false
+        },{
+          "type": "text",
+          "key": "test-ingress-subdomain",
+          "readonly": false
+        },{
+          "type": "label",
+          "title": ""
+        },{
+          "type": "label",
+          "title": "Cluster Name"
+        },{
+          "type": "label",
+          "title": "Cluster Namespace"
+        },{
+          "type": "label",
+          "title": "AppID Alias"
+        },{
+          "type": "label",
+          "title": ""
+        },{
+          "type": "text",
+          "key": "test-cluster-name",
+          "readonly": false
+        },{
+          "type": "text",
+          "key": "test-cluster-namespace",
+          "readonly": false
+        },{
+          "type": "text",
+          "key": "test-appid-alias",
+          "readonly": false
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "columnCount": 4,
+      "widths": ["19%", "27%", "27%", "27%"],
+      "items": [
+        {
+          "type": "label",
+          "title": ""
+        },{
+          "type": "label",
+          "title": "Region"
+        },{
+          "type": "label",
+          "title": "Ingress Host"
+        },{
+          "type": "label",
+          "title": "Ingress Sub-Domain"
+        },{
+          "type": "label",
+          "title": "Staging Environment"
+        },{
+          "type": "select",
+          "key": "staging-region"
+        },{
+          "type": "text",
+          "key": "staging-ingress-host",
+          "readonly": false
+        },{
+          "type": "text",
+          "key": "staging-ingress-subdomain",
+          "readonly": false
+        },{
+          "type": "label",
+          "title": ""
+        },{
+          "type": "label",
+          "title": "Cluster Name"
+        },{
+          "type": "label",
+          "title": "Cluster Namespace"
+        },{
+          "type": "label",
+          "title": "AppID Alias"
+        },{
+          "type": "label",
+          "title": ""
+        },{
+          "type": "text",
+          "key": "staging-cluster-name",
+          "readonly": false
+        },{
+          "type": "text",
+          "key": "staging-cluster-namespace",
+          "readonly": false
+        },{
+          "type": "text",
+          "key": "staging-appid-alias",
+          "readonly": false
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "columnCount": 2,
+      "widths": ["19%", "80%"],
+      "items": [
+        {
+          "type": "label",
+          "title": ""
+        },{
+          "type": "label",
+          "title": "Retrieve the Kubernetes cluster name with the CLI command 'bx cs clusters' or via the [console](https://console.bluemix.net/containers-kubernetes/home/clusters)."
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "columnCount": 2,
+      "widths": ["19%", "80%"],
+      "items": [
+        {
+          "type": "label",
+          "title": ""
+        },{
+          "type": "label",
+          "title": "If the cluster namespace doesn't exist already, it will be automatically created and configured."
+        }
+      ]
+    }
+  ]
+}

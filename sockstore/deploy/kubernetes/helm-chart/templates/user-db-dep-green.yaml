@@ -1,0 +1,40 @@
+---
+{{ if .Values.green.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: user-db-green
+  labels:
+    name: user-db
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: user-db
+        slot: green
+    spec:
+      containers:
+      - name: user-db-green
+        image: {{ .Values.registry }}/{{ .Values.userdb.image }}:{{ .Values.userdb.tag }}
+        imagePullPolicy: Always
+        ports:
+        - name: mongo
+          containerPort: 27017
+        securityContext:
+          capabilities:
+            drop:
+              - all
+            add:
+              - CHOWN
+              - SETGID
+              - SETUID
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp-volume
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+{{ end }}

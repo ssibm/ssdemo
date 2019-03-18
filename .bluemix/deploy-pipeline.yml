@@ -1,0 +1,173 @@
+---
+stages:
+- name: DEV Deploy
+  inputs:
+  - type: git
+    branch: ci-cd
+    service: ${GIT_REPO}
+  triggers:
+  - type: commit
+  properties:
+  - name: REGISTRY_NAMESPACE
+    value: ${REGISTRY_NAMESPACE}
+    type: text
+  - name: INGRESS_HOST
+    value: ${DEV_INGRESS_HOST}
+    type: text
+  - name: INGRESS_SUBDOMAIN
+    value: ${DEV_INGRESS_SUBDOMAIN}
+    type: text
+  - name: APPID_ALIAS
+    value: ${DEV_APPID_ALIAS}
+    type: text
+  - name: CLUSTER_NAME
+    value: ${DEV_CLUSTER_NAME}
+    type: text
+  - name: CLUSTER_NAMESPACE
+    value: ${DEV_CLUSTER_NAMESPACE}
+    type: text
+  - name: REGION_ID
+    value: ${DEV_REGION}
+    type: text
+  jobs:
+  - name: Setup Logging
+    type: deployer
+    target:
+      region_id: ${DEV_REGION}
+      api_key: ${API_KEY}
+      kubernetes_cluster: ${DEV_CLUSTER_NAME}
+    script: |
+      #!/bin/bash
+      source "./sockstore/scripts/otc-logging.sh"
+  - name: Pre-deploy check
+    type: deployer
+    target:
+      region_id: ${DEV_REGION}
+      api_key: ${API_KEY}
+      kubernetes_cluster: ${DEV_CLUSTER_NAME}
+    script: |
+      #!/bin/bash
+      source "./sockstore/scripts/otc-predeploy.sh"
+  - name: Deploy Helm chart
+    type: deployer
+    target:
+      region_id: ${DEV_REGION}
+      api_key: ${API_KEY}
+      kubernetes_cluster: ${DEV_CLUSTER_NAME}
+    script: |
+      #!/bin/bash
+      source "./sockstore/scripts/otc-deploy.sh"
+- name: TEST Deploy
+  inputs:
+  - type: git
+    branch: ci-cd
+    service: ${GIT_REPO}
+  triggers:
+  - type: stage
+  properties:
+  - name: REGISTRY_NAMESPACE
+    value: ${REGISTRY_NAMESPACE}
+    type: text
+  - name: INGRESS_HOST
+    value: ${TEST_INGRESS_HOST}
+    type: text
+  - name: INGRESS_SUBDOMAIN
+    value: ${TEST_INGRESS_SUBDOMAIN}
+    type: text
+  - name: APPID_ALIAS
+    value: ${TEST_APPID_ALIAS}
+    type: text
+  - name: CLUSTER_NAME
+    value: ${TEST_CLUSTER_NAME}
+    type: text
+  - name: CLUSTER_NAMESPACE
+    value: ${TEST_CLUSTER_NAMESPACE}
+    type: text
+  - name: REGION_ID
+    value: ${TEST_REGION}
+    type: text
+  jobs:
+  - name: Setup Logging
+    type: deployer
+    target:
+      region_id: ${DEV_REGION}
+      api_key: ${API_KEY}
+      kubernetes_cluster: ${DEV_CLUSTER_NAME}
+    script: |
+      #!/bin/bash
+      source "./sockstore/scripts/otc-logging.sh"
+  - name: Pre-deploy check
+    type: deployer
+    target:
+      region_id: ${TEST_REGION}
+      api_key: ${API_KEY}
+      kubernetes_cluster: ${TEST_CLUSTER_NAME}
+    script: |
+      #!/bin/bash
+      source "./sockstore/scripts/otc-predeploy.sh"
+  - name: Deploy Helm chart
+    type: deployer
+    target:
+      region_id: ${TEST_REGION}
+      api_key: ${API_KEY}
+      kubernetes_cluster: ${TEST_CLUSTER_NAME}
+    script: |
+      #!/bin/bash
+      source "./sockstore/scripts/otc-deploy.sh"
+- name: STAGING Deploy
+  inputs:
+  - type: git
+    branch: ci-cd
+    service: ${GIT_REPO}
+  triggers:
+  - type: stage
+  properties:
+  - name: REGISTRY_NAMESPACE
+    value: ${REGISTRY_NAMESPACE}
+    type: text
+  - name: INGRESS_HOST
+    value: ${STAGING_INGRESS_HOST}
+    type: text
+  - name: INGRESS_SUBDOMAIN
+    value: ${STAGING_INGRESS_SUBDOMAIN}
+    type: text
+  - name: APPID_ALIAS
+    value: ${STAGING_APPID_ALIAS}
+    type: text
+  - name: CLUSTER_NAME
+    value: ${STAGING_CLUSTER_NAME}
+    type: text
+  - name: CLUSTER_NAMESPACE
+    value: ${STAGING_CLUSTER_NAMESPACE}
+    type: text
+  - name: REGION_ID
+    value: ${STAGING_REGION}
+    type: text
+  jobs:
+  - name: Setup Logging
+    type: deployer
+    target:
+      region_id: ${DEV_REGION}
+      api_key: ${API_KEY}
+      kubernetes_cluster: ${DEV_CLUSTER_NAME}
+    script: |
+      #!/bin/bash
+      source "./sockstore/scripts/otc-logging.sh"
+  - name: Pre-deploy check
+    type: deployer
+    target:
+      region_id: ${STAGING_REGION}
+      api_key: ${API_KEY}
+      kubernetes_cluster: ${STAGING_CLUSTER_NAME}
+    script: |
+      #!/bin/bash
+      source "./sockstore/scripts/otc-predeploy.sh"
+  - name: Deploy Helm chart
+    type: deployer
+    target:
+      region_id: ${STAGING_REGION}
+      api_key: ${API_KEY}
+      kubernetes_cluster: ${STAGING_CLUSTER_NAME}
+    script: |
+      #!/bin/bash
+      source "./sockstore/scripts/otc-deploy.sh"

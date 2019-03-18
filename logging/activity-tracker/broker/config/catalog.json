@@ -1,0 +1,56 @@
+{
+  "services": {
+    "id": "serviceIdWillPopulateAtRuntimeFromHelmValues",
+    "name": "hpc-aas",
+    "description": "HPC Application as a Service powered by Rescale ScaleX platform",
+    "requires": [
+      "route_forwarding"
+    ],
+    "tags": [
+      "rc_compatible",
+      "ibm_experimental",
+      "app_services",
+      "hpc"
+    ],
+    "metadata": {
+      "displayName": "HPC Application as a Service",
+      "imageUrl": "TBD",
+      "longDescription": "Suraksha please input...",
+      "providerDisplayName": "Rescale",
+      "documentationUrl": "www.rescale.com",
+      "supportUrl": "STRING",
+      "termsUrl": "STRING",
+      "locationDisplayName": "STRING",
+      "type": "STRING",
+      "serviceKeysSupported": "BOOLEAN",
+      "serviceMonitorApi": "STRING",
+      "i18n": "OBJECT"
+    },
+    "dashboard_client": {
+      "id": "rescaleClientId",
+      "secret": "rescaleClientPass",
+      "redirect_uri": "rescaleRedirectURI"
+    },
+    "plan_updateable": false,
+    "bindable": false,
+    "plans": {
+      "id": "planIdOrPartNumber",
+      "free": false,
+      "name": "Rescale Pay as you Go",
+      "description": "STRING",
+      "metadata": {
+        "bullets": "ARRAY",
+        "costs": {
+          "unit": "STRING",
+          "partNumber": "STRING",
+          "unitId": "STRING"
+        },
+        "displayName": "Rescale PayGo",
+        "paidOnly": true,
+        "allowInternalUsers": false,
+        "subscription": false,
+        "asyncProvisioningSupported": true
+      }
+    }
+  }
+}

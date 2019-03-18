@@ -1,0 +1,25 @@
+{{ if .Values.green.enabled }}
+{{ if .Values.zipkin.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zipkin-mysql-green
+  labels:
+    name: zipkin-mysql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: zipkin-mysql
+        slot: green
+    spec:
+      containers:
+      - name: zipkin-mysql-green
+        image: openzipkin/zipkin-mysql:1.20.0
+        imagePullPolicy: Always
+        ports:
+        - name: mysql
+          containerPort: 3306
+{{ end }}
+{{ end }}

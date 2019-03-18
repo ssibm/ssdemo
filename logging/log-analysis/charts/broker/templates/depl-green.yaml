@@ -1,0 +1,74 @@
+{{ if .Values.green.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.svc.name }}-green
+  namespace: {{ .Values.namespace }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+        slot: green
+    spec:
+      containers:
+      - name: {{ .Values.svc.name }}-green
+        image: "{{ .Values.image.repo }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.svc.port }}
+        env:
+        - name: SVC_ID
+          valueFrom:
+            configMapKeyRef:
+              name: "{{ .Values.svc.name }}"
+              key: svc_id
+        - name: PLAN_ID
+          valueFrom:
+            configMapKeyRef:
+              name: "{{ .Values.svc.name }}"
+              key: plan_id
+        - name: BR_USER
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Values.svc.name }}"
+              key: user
+        - name: BR_PASS
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Values.svc.name }}"
+              key: pass
+        - name: PR_APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Values.provider.secret }}"
+              key: apikey
+        - name: PR_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Values.provider.secret }}"
+              key: endpoint
+        - name: BR_API_VER_HEADER
+          valueFrom:
+            configMapKeyRef:
+              name: "{{ .Values.svc.name }}"
+              key: br_api_ver_header
+        - name: BR_API_VER
+          valueFrom:
+            configMapKeyRef:
+              name: "{{ .Values.svc.name }}"
+              key: br_api_ver
+        - name: NODE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: "{{ .Values.svc.name }}"
+              key: node_port
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: "{{ .Values.svc.name }}"
+              key: node_env
+{{ end }}

@@ -1,0 +1,33 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    {{ if .Values.appid.alias }}
+    ingress.bluemix.net/appid-auth: "bindSecret=binding-{{.Values.appid.alias}} namespace={{.Release.Namespace}} requestType=web serviceName=front-end;"
+    {{ end }}
+    ingress.bluemix.net/redirect-to-https: "true"
+  name: {{ .Values.ingress.name }}
+  labels:
+    app: front-end
+spec:
+  tls:
+    - hosts:
+      - {{ .Values.ingress.host }}.{{ .Values.ingress.subdomain }}
+      - staging.{{ .Values.ingress.host }}.{{ .Values.ingress.subdomain }}
+      secretName: {{ .Chart.Name }}-{{ .Release.Name }}-cert-secret
+  rules:
+    - host: {{ .Values.ingress.host }}.{{ .Values.ingress.subdomain }}
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: front-end
+            servicePort: 8079
+    - host: staging.{{ .Values.ingress.host }}.{{ .Values.ingress.subdomain }}
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: front-end-stage
+            servicePort: 8079

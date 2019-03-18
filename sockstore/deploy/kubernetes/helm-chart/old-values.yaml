@@ -1,0 +1,64 @@
+# Default values for sock-shop.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+java:
+  options: -Xms64m -Xmx128m -XX:PermSize=32m -XX:MaxPermSize=64m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom
+zipkin:
+  enabled:  false
+  url: zipkin.zipkin.svc.cluster.local
+cart:
+  repository: registry.ng.bluemix.net/swarm
+  image:
+  tag:
+catalogue:
+  repository: registry.ng.bluemix.net/swarm
+  image:
+  tag:
+cataloguedb:
+  repository: registry.ng.bluemix.net/swarm
+  image:
+  tag:
+frontend:
+  replicas: 1
+  repository: registry.ng.bluemix.net/swarm
+  image:
+  tag:
+order:
+  repository: registry.ng.bluemix.net/swarm
+  image:
+  tag:
+payment:
+  repository: registry.ng.bluemix.net/swarm
+  image:
+  tag:
+queuemaster:
+  repository: registry.ng.bluemix.net/swarm
+  image:
+  tag:
+shipping:
+  repository: registry.ng.bluemix.net/swarm
+  image:
+  tag:
+user:
+  repository: registry.ng.bluemix.net/swarm
+  image:
+  tag:
+userdb:
+  repository: registry.ng.bluemix.net/swarm
+  image:
+  tag:
+ingress:
+  host: hdngo-sockstore
+  subdomain: swarm-mzr-ussouth.us-south.containers.appdomain.cloud
+  name: front-end-ing
+appid:
+  alias:
+loadtest:
+  replicas: 2
+  enabled: false
+
+green:
+  enabled: false
+blue:
+  enabled: false
+productionSlot: blue

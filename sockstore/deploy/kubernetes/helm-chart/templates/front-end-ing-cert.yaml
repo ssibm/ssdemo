@@ -1,0 +1,18 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ .Chart.Name }}-{{ .Release.Name }}-certificate
+spec:
+  secretName: {{ .Chart.Name }}-{{ .Release.Name }}-cert-secret
+  issuerRef:
+    name: letsencrypt-staging-issuer
+    kind: Issuer
+  commonName: {{ .Values.ingress.domain }}
+  dnsNames:
+  - "{{ .Values.ingress.host }}.{{ .Values.ingress.subdomain }}"
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+      - "{{ .Values.ingress.host }}.{{ .Values.ingress.subdomain }}"

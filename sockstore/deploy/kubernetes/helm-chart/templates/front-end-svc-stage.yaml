@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end-stage
+  labels:
+    name: front-end
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8079
+  selector:
+    name: front-end
+    {{- if eq .Values.productionSlot "blue" }}
+    slot: green
+    {{- else }}
+    slot: blue
+    {{- end }}

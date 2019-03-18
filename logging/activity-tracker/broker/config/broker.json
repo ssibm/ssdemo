@@ -1,0 +1,12 @@
+{
+  "NODE_ENV": "development",
+  "NODE_PORT": 3000,
+  "BR_API_VER_HEADER": "X-Broker-API-Version",
+  "BR_API_VER": "2.13",
+  "BR_USER": "bruser",
+  "BR_PASS": "brpass",
+  "SVC_ID": "svciddevtest",
+  "PLAN_ID": "planiddevtest",
+  "PR_ENDPOINT": "https://platform-jpdev.rescale.com/api/v3/register/company/",
+  "PR_APIKEY": "Token e1aad2b111d85d92e0ef791bf663d1a1ea11ace1"
+}

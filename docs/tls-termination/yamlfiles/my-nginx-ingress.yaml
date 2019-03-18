@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: my-nginx-ingress
+spec:
+  tls:
+  - hosts:
+    - <Enter your FQDN here, for example: www.EXAMPLE.com>
+    secretName: <tls_secret>
+  rules:
+  - host: <Enter your FQDN here, for example: www.EXAMPLE.com>
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: my-nginx-service
+          servicePort: 8000

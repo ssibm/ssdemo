@@ -1,0 +1,31 @@
+#!/bin/bash
+
+export CART_IMAGE_NAME=sockstore-cart
+export CART_IMAGE_TAG=3441eac72038f499a500b28eadb4501dc0ea66df
+
+export CATALOGUE_IMAGE_NAME=sockstore-catalogue
+export CATALOGUE_IMAGE_TAG=4ca85a1c6c3230cedbedd81057e423d2a40f8b0c
+
+export CATALOGUE_DB_IMAGE_NAME=sockstore-catalogue-db
+export CATALOGUE_DB_IMAGE_TAG=4ca85a1c6c3230cedbedd81057e423d2a40f8b0c
+
+export FRONT_END_IMAGE_NAME=sockstore-front-end
+export FRONT_END_IMAGE_TAG=76ca08268831b14c150c0feac603550e9b2b57e5
+
+export ORDER_IMAGE_NAME=sockstore-order
+export ORDER_IMAGE_TAG=957dbf454174dfa66e57406cd368260b3f000e2b
+
+export PAYMENT_IMAGE_NAME=sockstore-payment
+export PAYMENT_IMAGE_TAG=35788dce64577e4506264e2608f17a24a27b4226
+
+export QUEUE_MASTER_IMAGE_NAME=sockstore-queue-master
+export QUEUE_MASTER_IMAGE_TAG=927f416734b7ce6944e16910bcb3e8159138d79d
+
+export SHIPPING_IMAGE_NAME=sockstore-shipping
+export SHIPPING_IMAGE_TAG=9098b2449ecc02b59a99d007fca71c1e5d31d506
+
+export USER_IMAGE_NAME=sockstore-user
+export USER_IMAGE_TAG=ddd50896e98220a4cdec8584b20067419c02049c
+
+export USER_DB_IMAGE_NAME=sockstore-user-db
+export USER_DB_IMAGE_TAG=ddd50896e98220a4cdec8584b20067419c02049c

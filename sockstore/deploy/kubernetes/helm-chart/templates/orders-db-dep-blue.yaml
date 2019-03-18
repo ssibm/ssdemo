@@ -1,0 +1,40 @@
+---
+{{ if .Values.blue.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: orders-db-blue
+  labels:
+    name: orders-db
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: orders-db
+        slot: blue
+    spec:
+      containers:
+      - name: orders-db-blue
+        image: mongo
+        imagePullPolicy: Always
+        ports:
+        - name: mongo
+          containerPort: 27017
+        securityContext:
+          capabilities:
+            drop:
+              - all
+            add:
+              - CHOWN
+              - SETGID
+              - SETUID
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp-volume
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+{{ end }}

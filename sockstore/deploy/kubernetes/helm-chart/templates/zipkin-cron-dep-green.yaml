@@ -1,0 +1,33 @@
+{{ if .Values.green.enabled }}
+{{- if .Values.zipkin.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: zipkin-cron-green
+  labels:
+    name: zipkin-cron
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: zipkin-cron
+        slot: green
+    spec:
+      containers:
+      - name: zipkin-cron-green
+        image: openzipkin/zipkin-dependencies:1.4.0
+        imagePullPolicy: Always
+        env:
+        - name: STORAGE_TYPE
+          value: mysql
+        - name: MYSQL_HOST
+          value: zipkin-mysql
+        - name: MYSQL_USER
+          value: zipkin
+        - name: MYSQL_PASS
+          value: zipkin
+        command: ["crond"]
+        args: ["-f"]
+{{- end -}}
+{{ end }}

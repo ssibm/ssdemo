@@ -1,0 +1,30 @@
+cart:
+  image: sockstore-cart
+  tag: 28c39369d43887f1a1e2fa9bfaea5feb76d00e80
+catalogue:
+  image: sockstore-catalogue
+  tag: 4ca85a1c6c3230cedbedd81057e423d2a40f8b0c
+cataloguedb:
+  image: sockstore-catalogue-db
+  tag: 4ca85a1c6c3230cedbedd81057e423d2a40f8b0c
+frontend:
+  image: sockstore-front-end
+  tag: 76ca08268831b14c150c0feac603550e9b2b57e5
+order:
+  image: sockstore-order
+  tag: 957dbf454174dfa66e57406cd368260b3f000e2b
+payment:
+  image: sockstore-payment
+  tag: 35788dce64577e4506264e2608f17a24a27b4226
+queuemaster:
+  image: sockstore-queue-master
+  tag: 927f416734b7ce6944e16910bcb3e8159138d79d
+shipping:
+  image: sockstore-shipping
+  tag: 9098b2449ecc02b59a99d007fca71c1e5d31d506
+user:
+  image: sockstore-user
+  tag: ddd50896e98220a4cdec8584b20067419c02049c
+userdb:
+  image: sockstore-user-db
+  tag: ddd50896e98220a4cdec8584b20067419c02049c
