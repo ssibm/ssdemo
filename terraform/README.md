@@ -1,2 +1,37 @@
-## Docs about Terraform Files
-This directory should be used for storing our documentation files about our Terraform implementation.  We will later add a concise version to our Gitbooks website.
+Follow the instructions here to use this Terraform plan and deploy IBM Cloud resources.  
+
+### Prerequisites
+
++ Install [Terraform](https://www.terraform.io/intro/getting-started/install.html)
++ Install [Terraform-Provider-IBM](https://github.com/IBM-Cloud/terraform-provider-ibm/releases)
++ Clone repo `git clone https://github.com/ssibm/ssdemo.git && cd terraform`  
++ Edit variables.tf. Set your IBM Cloud API keys and IBM Cloud (Softlayer) username. Also set other values including `region`, `zones`, `cf_org`, `cf_space`
+
+
+
+
+### Apply terraform plan
+
+```
+$ terraform init
+$ terraform plan
+```
+
+Verify that the plan looks correct, next you can run the command to actually provision the plan:
+
+```
+$ terraform apply
+```
+
+### Clean Up
+
+```
+terraform destroy
+```
+
+## References
+[Terraform](https://www.terraform.io/intro/getting-started/install.html)
+
+[Terraform Provider IBM Downloads](https://github.com/IBM-Cloud/terraform-provider-ibm/releases)
+
+[Terraform Provider IBM Docs](https://ibm-cloud.github.io/tf-ibm-docs/)
