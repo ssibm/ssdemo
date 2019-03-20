@@ -5,10 +5,7 @@ Follow the instructions here to use this Terraform plan and deploy IBM Cloud res
 + Install [Terraform](https://www.terraform.io/intro/getting-started/install.html)
 + Install [Terraform-Provider-IBM](https://github.com/IBM-Cloud/terraform-provider-ibm/releases)
 + Clone repo `git clone https://github.com/ssibm/ssdemo.git && cd terraform`  
-+ Edit variables.tf. Set your IBM Cloud API keys and IBM Cloud (Softlayer) username. Also set other values including `region`, `zones`, `cf_org`, `cf_space`
-
-
-
++ Edit `variables.tf` or add `terraform.tfvars` and set your IBM Cloud API keys and IBM Cloud (Softlayer) username. Also set other values including `region`, `zones`, `cf_org`, `cf_space`
 
 ### Apply terraform plan
 
@@ -17,7 +14,7 @@ $ terraform init
 $ terraform plan
 ```
 
-Verify that the plan looks correct, next you can run the command to actually provision the plan:
+Verify that the plan looks correct. Next run the command to apply the plan to provision resources.  
 
 ```
 $ terraform apply
@@ -26,7 +23,7 @@ $ terraform apply
 ### Clean Up
 
 ```
-terraform destroy
+$ terraform destroy
 ```
 
 ## References

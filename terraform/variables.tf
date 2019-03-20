@@ -41,3 +41,54 @@ variable "cluster_name" {
   description = "iks cluster name"
   default = "dev"
 }
+
+variable "kube_version" {
+  type = "string"
+  description = "kube version"
+  default = "1.12.6"
+}
+
+variable "billing" {
+  type = "string"
+  description = "billing type"
+  default = "hourly"
+}
+
+variable "keyprotect" {
+  type = "map"
+  description = "key protect instance info"
+  default = {
+    "name" = "kps"
+    "description" = "root key"
+    # Leave payload blank to generate root key
+    # set payload to BYO-key file with AES 128/192/256 bits
+    "payload" = ""
+  }
+}
+
+variable "cos_name" {
+  type = "string"
+  description = "cloud object storage instance"
+  default = "cos"
+}
+
+variable "appid_name" {
+  type = "string"
+  description = "appid instance"
+  default = "appid"
+}
+
+variable "appid_user" {
+  type = "map"
+  default = {
+    "first"     = "John"
+    "last"      = "Doe"
+    "email"     = "jdoe@noemail.com"
+    "password"  = "passw0rd"
+  }
+}
+
+variable "app_name" {
+  type = "string"
+  default = "sockstore"
+}

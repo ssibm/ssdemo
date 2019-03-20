@@ -24,17 +24,3 @@ data "ibm_space" "space" {
 resource "random_pet" "pfx" {
   length = 1
 }
-
-resource "ibm_network_vlan" "private" {
-  count       = "${length(var.zones)}"
-  name        = "${local.pfx}-${element(var.zones, count.index)}-private"
-  datacenter  = "${element(var.zones, count.index)}"
-  type        = "PRIVATE"
-}
-
-resource "ibm_network_vlan" "public" {
-  count       = "${length(var.zones)}"
-  name        = "${local.pfx}-${element(var.zones, count.index)}-public"
-  datacenter  = "${element(var.zones, count.index)}"
-  type        = "PUBLIC"
-}
